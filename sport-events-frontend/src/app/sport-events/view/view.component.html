@@ -1,0 +1,72 @@
+<button mat-fab color="primary" class="add-event-button" [routerLink]="['../' + SportEventsRoutes.CREATE]">
+  <mat-icon>add</mat-icon>
+</button>
+
+<div class="mat-elevation-z8">
+  <div class="filters-row">
+    <mat-form-field>
+      <mat-label>Search by name</mat-label>
+      <input matInput (keyup)="applyNameFilter($event)" placeholder="Enter more than two symbols to filter by name" />
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Sports</mat-label>
+      <mat-select [formControl]="sports" multiple (selectionChange)="applySportFilter($event)">
+        <mat-select-trigger>
+          {{ sports.value?.[0] || '' }}
+          <span *ngIf="(sports.value?.length || 0) > 1">
+            (+{{ (sports.value?.length || 0) - 1 }} {{ sports.value?.length === 2 ? 'other' : 'others' }})
+          </span>
+        </mat-select-trigger>
+        <mat-option *ngFor="let sports of sportsList" [value]="sports">{{ sports }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Status</mat-label>
+      <mat-select [formControl]="statuses" multiple (selectionChange)="applyStatusFilter($event)">
+        <mat-select-trigger>
+          {{ statuses.value?.[0] || '' }}
+          <span *ngIf="(statuses.value?.length || 0) > 1">
+            (+{{ (statuses.value?.length || 0) - 1 }} {{ statuses.value?.length === 2 ? 'other' : 'others' }})
+          </span>
+        </mat-select-trigger>
+        <mat-option *ngFor="let status of statusesList" [value]="status">{{ status }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <table mat-table [dataSource]="dataSource" matSort>
+    <ng-container [matColumnDef]="column.columnDef" *ngFor="let column of columns">
+      <ng-container *ngIf="column.sort; else columnWithoutSorting">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ column.header }}
+        </th>
+      </ng-container>
+      <ng-template #columnWithoutSorting>
+        <th mat-header-cell *matHeaderCellDef>
+          {{ column.header }}
+        </th>
+      </ng-template>
+      <td mat-cell *matCellDef="let row">
+        {{ column.cell(row) }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef>&nbsp;</th>
+      <td mat-cell *matCellDef="let element">
+        <app-sport-event-actions [sportEvent]="element" (statusUpdated)="onStatusUpdated($event)"></app-sport-event-actions>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumnsWithActions; sticky: true"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumnsWithActions"></tr>
+
+    <tr *matNoDataRow>
+      <td class="no-data-cell" [attr.colspan]="displayedColumnsWithActions.length">No data available</td>
+    </tr>
+  </table>
+
+  <mat-paginator [pageSizeOptions]="[10, 20, 50]"></mat-paginator>
+</div>

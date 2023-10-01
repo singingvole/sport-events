@@ -1,0 +1,65 @@
+<mat-card class="create-event-card">
+  <mat-card-header>
+    <mat-card-title>Create new event</mat-card-title>
+  </mat-card-header>
+  <form [formGroup]="eventForm" (ngSubmit)="onSubmit()">
+    <mat-card-content class="events-form-fields">
+      <mat-form-field>
+        <mat-label>Name</mat-label>
+        <input matInput type="text" formControlName="name" />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Sport</mat-label>
+        <mat-select [formControl]="eventForm.controls.sport">
+          <mat-select-trigger>
+            {{ eventForm.controls.sport.value || '' }}
+          </mat-select-trigger>
+          <mat-option *ngFor="let sports of sportsList" [value]="sports">{{ sports }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Status</mat-label>
+        <mat-select [formControl]="eventForm.controls.status">
+          <mat-select-trigger>
+            {{ eventForm.controls.status.value || '' }}
+          </mat-select-trigger>
+          <mat-option *ngFor="let status of statusesList" [value]="status">{{ status }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <input
+          (focus)="pickerStartDate.open()"
+          matInput
+          [ngxMatDatetimePicker]="pickerStartDate"
+          placeholder="Event start date"
+          formControlName="startTime" />
+        <ngx-mat-datepicker-toggle matSuffix [for]="pickerStartDate"></ngx-mat-datepicker-toggle>
+        <ngx-mat-datetime-picker #pickerStartDate>
+          <ngx-mat-datepicker-actions>
+            <button mat-button ngxMatDatepickerCancel>Cancel</button>
+            <button mat-raised-button color="primary" ngxMatDatepickerApply>Apply</button>
+          </ngx-mat-datepicker-actions>
+        </ngx-mat-datetime-picker>
+      </mat-form-field>
+      <mat-form-field>
+        <input
+          (focus)="pickerEndDate.open()"
+          matInput
+          [ngxMatDatetimePicker]="pickerEndDate"
+          placeholder="Event end date"
+          formControlName="finishTime" />
+        <ngx-mat-datepicker-toggle matSuffix [for]="pickerEndDate"></ngx-mat-datepicker-toggle>
+        <ngx-mat-datetime-picker #pickerEndDate>
+          <ngx-mat-datepicker-actions>
+            <button mat-button ngxMatDatepickerCancel>Cancel</button>
+            <button mat-raised-button color="primary" ngxMatDatepickerApply>Apply</button>
+          </ngx-mat-datepicker-actions>
+        </ngx-mat-datetime-picker>
+      </mat-form-field>
+      <mat-card-actions>
+        <button mat-raised-button type="submit" color="primary">Save</button>
+        <button mat-raised-button type="button" color="accent" [routerLink]="['../' + SportEventsRoutes.VIEW]">View all events</button>
+      </mat-card-actions>
+    </mat-card-content>
+  </form>
+</mat-card>

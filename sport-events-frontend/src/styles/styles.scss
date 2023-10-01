@@ -1,0 +1,28 @@
+@use '@angular/material' as mat;
+@use 'ngx-mat-datetimepicker';
+@include mat.core();
+
+$sport-events-frontend-primary: mat.define-palette(mat.$indigo-palette);
+$sport-events-frontend-accent: mat.define-palette(mat.$green-palette, A200, A100, A400);
+$sport-events-frontend-warn: mat.define-palette(mat.$red-palette);
+
+$sport-events-frontend-theme: mat.define-light-theme(
+  (
+    color: (
+      primary: $sport-events-frontend-primary,
+      accent: $sport-events-frontend-accent,
+      warn: $sport-events-frontend-warn,
+    ),
+  )
+);
+
+@include mat.all-component-themes($sport-events-frontend-theme);
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+}

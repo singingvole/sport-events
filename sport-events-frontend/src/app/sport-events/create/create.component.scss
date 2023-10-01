@@ -1,0 +1,16 @@
+:host {
+  display: flex;
+  align-self: center;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.events-form-fields {
+  display: flex;
+  flex-direction: column;
+  min-width: 350px;
+}
+
+mat-card-actions {
+  column-gap: 10px;
+}
